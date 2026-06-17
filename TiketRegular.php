@@ -13,9 +13,7 @@ class TiketRegular extends Tiket {
         $this->lokasi_baris = $lokasi_baris;
     }
 
-    // Fungsi statis untuk mengambil data regular berdasarkan ID tiket
     public static function getById($db, $id) {
-        // Menyiapkan query SQL tanpa menggunakan alias tabel
         $query = "SELECT id_tiket, nama_film, jadwal_tayang, jumlah_kursi, harga_dasar_tiket, tipe_audio, lokasi_baris 
                   FROM tabel_tiket 
                   WHERE id_tiket = :id AND jenis_studio = 'Regular'";
@@ -24,15 +22,12 @@ class TiketRegular extends Tiket {
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         
-        // Mengambil hasil query dalam bentuk associative array
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        // Jika data tidak ditemukan, kembalikan nilai null
         if (!$row) {
             return null;
         }
         
-        // Mengembalikan objek instansiasi baru dari kelas TiketRegular
         return new self(
             $row['id_tiket'],
             $row['nama_film'],
@@ -44,6 +39,7 @@ class TiketRegular extends Tiket {
         );
     }
 
+    // Overriding: Menghitung total harga tiket Regular (tarif standar murni)
     public function hitungTotalHarga() {
         return $this->harga_dasar_tiket * $this->jumlah_kursi;
     }

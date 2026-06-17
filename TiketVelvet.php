@@ -13,9 +13,7 @@ class TiketVelvet extends Tiket {
         $this->layanan_butler = $layanan_butler;
     }
 
-    // Fungsi statis untuk mengambil data Velvet berdasarkan ID tiket
     public static function getById($db, $id) {
-        // Menyiapkan query SQL tanpa menggunakan alias tabel
         $query = "SELECT id_tiket, nama_film, jadwal_tayang, jumlah_kursi, harga_dasar_tiket, bantal_selimut_pack, layanan_butler 
                   FROM tabel_tiket 
                   WHERE id_tiket = :id AND jenis_studio = 'Velvet'";
@@ -41,8 +39,9 @@ class TiketVelvet extends Tiket {
         );
     }
 
+    // Overriding: Menghitung total harga Velvet dengan tambahan surcharge premium sebesar 50%
     public function hitungTotalHarga() {
-        return $this->harga_dasar_tiket * $this->jumlah_kursi;
+        return ($this->harga_dasar_tiket * $this->jumlah_kursi) * 1.50;
     }
 
     public function tampilkanInfoFasilitas() {

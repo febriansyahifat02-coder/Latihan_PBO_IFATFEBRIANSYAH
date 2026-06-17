@@ -13,9 +13,7 @@ class TiketIMAX extends Tiket {
         $this->efek_gerak_fitur = $efek_gerak_fitur;
     }
 
-    // Fungsi statis untuk mengambil data IMAX berdasarkan ID tiket
     public static function getById($db, $id) {
-        // Menyiapkan query SQL tanpa menggunakan alias tabel
         $query = "SELECT id_tiket, nama_film, jadwal_tayang, jumlah_kursi, harga_dasar_tiket, kacamata_3d_id, efek_gerak_fitur 
                   FROM tabel_tiket 
                   WHERE id_tiket = :id AND jenis_studio = 'IMAX'";
@@ -41,8 +39,9 @@ class TiketIMAX extends Tiket {
         );
     }
 
+    // Overriding: Menghitung total harga IMAX dengan tambahan biaya teknologi layar lebar Rp35.000
     public function hitungTotalHarga() {
-        return $this->harga_dasar_tiket * $this->jumlah_kursi;
+        return ($this->harga_dasar_tiket * $this->jumlah_kursi) + 35000;
     }
 
     public function tampilkanInfoFasilitas() {
